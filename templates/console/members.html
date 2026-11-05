@@ -1,0 +1,44 @@
+{% extends "console/base.html" %}
+{% block console %}
+<h1>Members</h1>
+<p class="muted">Ad-free members never see ads, even when ads are switched on.</p>
+<section class="card" aria-label="Members">
+  <div class="table-wrap">
+  <table class="members">
+    <thead><tr><th scope="col">Name</th><th scope="col">Role</th><th scope="col">Ad-free</th><th scope="col" class="r">Access</th></tr></thead>
+    <tbody>
+    {% for person in people %}
+    <tr>
+      <td><strong>{{ person.name }}</strong>
+        {% if person.approval_status != 'approved' %}<span class="chip off">{{ person.get_approval_status_display }}</span>{% endif %}
+        {% if person.is_staff %}<span class="chip">Admin</span>{% endif %}
+        <small class="muted block">@{{ person.username }}{% if person.last_login %} · last seen {{ person.last_login|timesince }} ago{% endif %}</small></td>
+      <td>{{ person.get_role_display }}</td>
+      <td>
+        {% if person.approval_status == 'approved' %}
+        <form method="post" action="{% url 'console_user_action' person.id %}">{% csrf_token %}
+          <input type="hidden" name="next" value="{% url 'console_members' %}">
+          <button class="switch" type="submit" role="switch" aria-checked="{% if person.ad_free %}true{% else %}false{% endif %}" aria-label="Ad-free for {{ person.name }}" name="action" value="{% if person.ad_free %}ad_free_off{% else %}ad_free_on{% endif %}"><span></span></button>
+        </form>
+        {% else %}<span class="muted">—</span>{% endif %}
+      </td>
+      <td class="r">
+        <form method="post" action="{% url 'console_user_action' person.id %}">{% csrf_token %}
+          <input type="hidden" name="next" value="{% url 'console_members' %}">
+          {% if person.approval_status == 'approved' %}
+            <button class="btn small ghost" name="action" value="reset_password" type="submit" aria-label="Reset password for {{ person.name }}">Reset password</button>
+            {% if person != user %}<button class="btn small ghost" name="action" value="revoke" type="submit" aria-label="Remove access for {{ person.name }}">Remove access</button>{% endif %}
+          {% else %}
+            <button class="btn small" name="action" value="approve" type="submit" aria-label="Approve {{ person.name }}">Approve</button>
+          {% endif %}
+        </form>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4" class="muted">No members yet.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "console/base.html" %}
+{% block console %}
+<h1>Admin console</h1>
+<section class="stats" aria-label="Counts">
+  <a class="stat left" href="{% url 'console_approvals' %}"><span class="lbl">Waiting for approval</span><span class="num">{{ counts.pending }}</span></a>
+  <a class="stat left" href="{% url 'console_members' %}"><span class="lbl">Approved members</span><span class="num">{{ counts.approved }}</span></a>
+  <a class="stat left" href="{% url 'console_members' %}"><span class="lbl">Ad-free members</span><span class="num">{{ counts.ad_free }}</span></a>
+  <a class="stat left" href="{% url 'console_settings' %}"><span class="lbl">Ads</span><span class="num">{% if site_settings.ads_enabled %}On{% else %}Off{% endif %}</span></a>
+</section>
+<section class="card">
+  <p>Add or edit skills and questions under <a href="/{{ admin_path }}learn/question/">Content</a>.</p>
+</section>
+{% endblock %}

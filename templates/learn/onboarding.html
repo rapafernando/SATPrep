@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Your goal · {{ APP_NAME }}{% endblock %}
+{% block content %}
+<h1>{% if editing %}Update your goal{% else %}Where do you want to land?{% endif %}</h1>
+<p class="muted">A few answers and you get a daily plan built around your test date.</p>
+<form method="post" novalidate class="goalform">
+  {% csrf_token %}
+  {% for e in form.non_field_errors %}<div class="msg error" role="alert">{{ e }}</div>{% endfor %}
+
+  <div class="scores">
+    <div class="field bigfield{% if form.current_score.errors %} has-error{% endif %}">
+      <label for="{{ form.current_score.id_for_label }}">Now</label>{{ form.current_score }}
+    </div>
+    <span class="arrow" aria-hidden="true">→</span>
+    <div class="field bigfield goal{% if form.target_score.errors %} has-error{% endif %}">
+      <label for="{{ form.target_score.id_for_label }}">Goal</label>{{ form.target_score }}
+    </div>
+  </div>
+  {% for e in form.current_score.errors %}<small class="error">{{ e }}</small>{% endfor %}
+  {% for e in form.target_score.errors %}<small class="error">{{ e }}</small>{% endfor %}
+  <small class="help">Total SAT score, 400 to 1600.</small>
+
+  <div class="field{% if form.test_date.errors %} has-error{% endif %}">
+    {{ form.test_date.label_tag }}{{ form.test_date }}
+    {% for e in form.test_date.errors %}<small class="error">{{ e }}</small>{% endfor %}
+  </div>
+
+  <div class="field{% if form.minutes_per_day.errors %} has-error{% endif %}">
+    {{ form.minutes_per_day.label_tag }}{{ form.minutes_per_day }}
+    <div class="chips" role="group" aria-label="Quick picks for minutes per day">
+      <button class="chipbtn" type="button" data-minutes="15">15</button><button class="chipbtn" type="button" data-minutes="30">30</button><button class="chipbtn" type="button" data-minutes="45">45</button><button class="chipbtn" type="button" data-minutes="60">60</button>
+    </div>
+    {% for e in form.minutes_per_day.errors %}<small class="error">{{ e }}</small>{% endfor %}
+  </div>
+
+  <div class="field{% if form.target_school.errors %} has-error{% endif %}">
+    {{ form.target_school.label_tag }}{{ form.target_school }}
+    {% for e in form.target_school.errors %}<small class="error">{{ e }}</small>{% endfor %}
+  </div>
+
+  <div class="cta-bar"><button class="btn block" type="submit">Make my plan</button></div>
+</form>
+{% endblock %}
+{% block scripts %}
+<script>
+  document.querySelectorAll(".chipbtn").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var input = document.getElementById("{{ form.minutes_per_day.id_for_label }}");
+      input.value = b.dataset.minutes;
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+  });
+</script>
+{% endblock %}

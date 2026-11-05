@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Your plan · {{ APP_NAME }}{% endblock %}
+{% block content %}
+<section class="card narrow center">
+  <h1>Your plan is ready</h1>
+  <p class="big">{{ goal.current_score }} → {{ goal.target_score }}</p>
+  {% if goal.target_school %}<p class="muted">Aiming for {{ goal.target_school }}</p>{% endif %}
+  <div class="stats three">
+    <div class="stat"><span class="num">{{ plan.days_left }}</span><span class="lbl">Days to test</span></div>
+    <div class="stat"><span class="num">{{ plan.daily_questions }}</span><span class="lbl">Questions a day</span></div>
+    <div class="stat"><span class="num">{{ plan.gain_needed }}</span><span class="lbl">Points to gain</span></div>
+  </div>
+  <p>{{ plan.note }}</p>
+  <a class="btn block" href="{% url 'home' %}">Let's get started</a>
+</section>
+{% endblock %}

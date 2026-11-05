@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Question {{ number }} · {{ APP_NAME }}{% endblock %}
+{% block head %}{% include "partials/_math.html" %}{% endblock %}
+{% block body_class %}focus{% endblock %}
+{% block content %}
+<div class="focusbar">
+  <a class="iconbtn" href="{% url 'home' %}" aria-label="Leave practice"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></a>
+  <div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax="{{ total }}" aria-valuenow="{{ number }}" aria-label="Question {{ number }} of {{ total }}"><span style="width: {% widthratio number total 100 %}%"></span></div>
+  <span class="count">{{ number }}/{{ total }}</span>
+</div>
+<div class="qhead">
+  <span class="eyebrow">{{ question.skill.get_track_display }} · {{ question.skill.name }}</span>
+  <span class="muted" id="timer" aria-hidden="true">0:00</span>
+</div>
+
+<form method="post" action="{% url 'practice_answer' session.id %}" id="question-form">
+  {% csrf_token %}
+  <section class="card stemcard"><div class="stem math">{{ question.stem|linebreaksbr }}</div></section>
+
+  {% if question.answer_type == 'choice' %}
+  <fieldset class="choices">
+    <legend class="sr-only">Choose one answer</legend>
+    {% for letter, text in question.labelled_choices %}
+    <label class="choice">
+      <input type="radio" name="answer" value="{{ letter }}">
+      <span class="letter">{{ letter }}</span><span class="math">{{ text }}</span>
+    </label>
+    {% endfor %}
+  </fieldset>
+  {% else %}
+  <div class="field">
+    <label for="answer">Your answer</label>
+    <input id="answer" name="answer" type="text" inputmode="decimal" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="A number, or a fraction like 3/4">
+  </div>
+  {% endif %}
+
+  <input type="hidden" name="seconds" id="seconds" value="0">
+
+  <div class="tools">
+    <button class="btn ghost small" type="button" id="toggle-calc" aria-expanded="false" aria-controls="calc-panel">Calculator</button>
+    <button class="btn ghost small" type="button" id="toggle-pad" aria-expanded="false" aria-controls="pad-panel">Scratchpad</button>
+    <button class="linklike skip" type="submit" form="skip-form">Skip</button>
+  </div>
+  <section id="calc-panel" class="card tool-panel" hidden aria-label="Calculator"></section>
+  <section id="pad-panel" class="card tool-panel" hidden aria-label="Scratchpad">
+    <canvas id="pad" aria-label="Draw here with a finger, mouse or pen"></canvas>
+    <div class="actions">
+      <button class="btn ghost small" type="button" id="pad-undo">Undo</button>
+      <button class="btn ghost small" type="button" id="pad-clear">Clear</button>
+    </div>
+  </section>
+
+  <div class="cta-bar"><button class="btn block" type="submit" id="check-btn">Check answer</button></div>
+</form>
+{# Skip lives in its own form so that pressing Enter in the answer box can never trigger it. #}
+<form id="skip-form" method="post" action="{% url 'practice_skip' session.id %}">{% csrf_token %}</form>
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'js/calc-core.js' %}" defer></script>
+<script src="{% static 'js/practice.js' %}" defer></script>
+{% endblock %}

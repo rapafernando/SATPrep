@@ -1,0 +1,2 @@
+-r requirements.txt
+Pillow>=10  # only used by tools/make_icons.py

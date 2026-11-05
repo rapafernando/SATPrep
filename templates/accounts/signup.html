@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Create an account · {{ APP_NAME }}{% endblock %}
+{% block content %}
+<div class="welcome">
+  <div class="welcome-head">
+    <h1>Create an account</h1>
+    <p class="muted">The admin checks each new account before it can sign in.</p>
+  </div>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% include "partials/_form.html" %}
+    <button class="btn block" type="submit">Send request</button>
+  </form>
+  <div class="welcome-foot">
+    <p class="muted">Already approved?</p>
+    <a class="btn ghost block" href="{% url 'login' %}">Sign in</a>
+    <p class="small-print"><a href="{% url 'privacy' %}">What we store and who sees it</a></p>
+  </div>
+</div>
+{% endblock %}

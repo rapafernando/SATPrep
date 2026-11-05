@@ -1,0 +1,74 @@
+{% load static core_tags %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{% block title %}{{ APP_NAME }}{% endblock %}</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#3438D1">
+  <link rel="manifest" href="{% url 'manifest' %}">
+  <link rel="icon" type="image/png" href="{% static 'icons/icon-192.png' %}">
+  <link rel="apple-touch-icon" href="{% static 'icons/apple-touch-icon.png' %}">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="{{ APP_NAME }}">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="stylesheet" href="{% static 'css/tokens.css' %}">
+  <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+  {% block head %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+  <a class="skip-link" href="#main">Skip to content</a>
+  {% with url_name=request.resolver_match.url_name %}
+  <header class="topbar">
+    <a class="brand" href="{% url 'home' %}"><img src="{% static 'icons/icon-192.png' %}" alt="" width="28" height="28"> {{ APP_NAME }}</a>
+    {% if user.is_authenticated %}
+    <nav class="nav wide-only" aria-label="Main">
+      <a href="{% url 'home' %}"{% if url_name == 'home' %} aria-current="page"{% endif %}>Today</a>
+      <a href="{% url 'practice_home' %}"{% if url_name == 'practice_home' or url_name == 'skill_detail' %} aria-current="page"{% endif %}>Practice</a>
+      <a href="{% url 'progress' %}"{% if url_name == 'progress' %} aria-current="page"{% endif %}>Progress</a>
+      <a href="{% url 'me' %}"{% if url_name == 'me' or url_name == 'family' or url_name == 'install_help' %} aria-current="page"{% endif %}>Me</a>
+      {% if user.is_staff %}<a href="{% url 'console' %}">Admin</a>{% endif %}
+    </nav>
+    {% endif %}
+  </header>
+  {% endwith %}
+
+  <main id="main" class="container">
+    {% if messages %}
+    <ul class="messages" role="status">
+      {% for message in messages %}<li class="msg {{ message.tags }}">{{ message }}</li>{% endfor %}
+    </ul>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+
+  {% if user.is_authenticated %}
+  {% with url_name=request.resolver_match.url_name %}
+  <nav class="tabbar" aria-label="Main">
+    <a href="{% url 'home' %}"{% if url_name == 'home' %} aria-current="page"{% endif %}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7v9H4z"/></svg>Today</a>
+    <a href="{% url 'practice_home' %}"{% if url_name == 'practice_home' or url_name == 'skill_detail' %} aria-current="page"{% endif %}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20l4-1 10-10-3-3L6 16z"/></svg>Practice</a>
+    <a href="{% url 'progress' %}"{% if url_name == 'progress' %} aria-current="page"{% endif %}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V9M10 19V5M16 19v-7M21 19H3"/></svg>Progress</a>
+    <a href="{% url 'me' %}"{% if url_name == 'me' or url_name == 'family' or url_name == 'install_help' %} aria-current="page"{% endif %}><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>Me</a>
+  </nav>
+  {% endwith %}
+  {% endif %}
+
+  {% if user.is_authenticated %}
+  <div id="install-banner" class="install-banner" hidden>
+    <div class="install-text">
+      <strong>Add {{ APP_NAME }} to your home screen</strong>
+      <span id="install-hint"></span>
+    </div>
+    <div class="install-actions">
+      <button id="install-btn" class="btn small" type="button" hidden>Install</button>
+      <button id="install-dismiss" class="btn small ghost" type="button">Not now</button>
+    </div>
+  </div>
+  {% endif %}
+
+  <script src="{% static 'js/app.js' %}" defer></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

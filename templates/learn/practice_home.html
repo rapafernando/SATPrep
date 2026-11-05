@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Practice · {{ APP_NAME }}{% endblock %}
+{% block content %}
+<h1>Practice</h1>
+{% if has_goal and has_questions %}
+<section class="card">
+  <h2>Mixed set</h2>
+  <p class="muted">A blend of skills, leaning toward the ones you know least.</p>
+  <form method="post" action="{% url 'start_daily' %}">{% csrf_token %}<button class="btn block" type="submit">Start a mixed set</button></form>
+</section>
+{% elif not has_goal %}
+<section class="card">
+  <h2>Mixed set</h2>
+  <p class="muted">Set your goal first and you get a daily mixed set built around your test date. You can still practice any skill below.</p>
+  <a class="btn ghost block" href="{% url 'onboarding' %}">Set my goal</a>
+</section>
+{% endif %}
+{% for track in tracks %}
+<section class="card">
+  <h2>{{ track.label }}</h2>
+  <ul class="path">
+    {% for row in track.rows %}
+    <li class="node {{ row.state }}">
+      <a href="{% url 'skill_detail' row.skill.slug %}">
+        <span class="dot" aria-hidden="true"></span>
+        <span class="node-text"><strong>{{ row.skill.name }}</strong><small>{{ row.skill.domain }}{% if row.progress %} · {{ row.progress.correct }}/{{ row.progress.attempts }} correct{% endif %}</small></span>
+        <span class="chip">{% if row.state == 'new' %}New{% elif row.state == 'strong' %}Strong{% else %}Learning{% endif %}</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% empty %}
+<section class="card"><p>No skills yet. The admin can add skills and questions in the admin area.</p></section>
+{% endfor %}
+{% endblock %}

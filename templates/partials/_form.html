@@ -1,0 +1,19 @@
+{% for e in form.non_field_errors.as_data %}
+  {% if e.code == 'pending' %}
+  <div class="notice" role="status"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><p>{% for m in e.messages %}{{ m }}{% endfor %}</p></div>
+  {% else %}
+  <div class="msg error" role="alert">{% for m in e.messages %}{{ m }}{% endfor %}</div>
+  {% endif %}
+{% endfor %}
+{% for field in form %}
+  {% if field.name == 'website' %}
+    <div class="hp" aria-hidden="true">{{ field.label_tag }} {{ field }}</div>
+  {% else %}
+  <div class="field{% if field.errors %} has-error{% endif %}">
+    {{ field.label_tag }}
+    {{ field }}
+    {% if field.help_text %}<small class="help">{{ field.help_text }}</small>{% endif %}
+    {% for error in field.errors %}<small class="error">{{ error }}</small>{% endfor %}
+  </div>
+  {% endif %}
+{% endfor %}

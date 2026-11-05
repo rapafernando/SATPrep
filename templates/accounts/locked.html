@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Sign-in paused · {{ APP_NAME }}{% endblock %}
+{% block content %}
+<div class="welcome">
+  <div class="welcome-head">
+    <h1>Sign-in paused</h1>
+    <p class="muted">Too many wrong passwords in a row, so this account is paused for about an hour to keep it safe.</p>
+  </div>
+  <section class="card">
+    <p>Try again later, or ask the admin to reset your password.</p>
+    <a class="btn block" href="{% url 'login' %}">Back to sign in</a>
+  </section>
+</div>
+{% endblock %}

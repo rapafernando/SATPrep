@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Request sent · {{ APP_NAME }}{% endblock %}
+{% block content %}
+<div class="welcome">
+  <div class="welcome-head">
+    <h1>Request sent</h1>
+    <p class="muted">Thanks! The admin will look at it soon. Once it is approved, sign in with the username and password you just chose.</p>
+  </div>
+  <div class="notice" role="status"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><p>Until then, signing in will say your account is waiting for approval.</p></div>
+  <a class="btn block" href="{% url 'login' %}">Back to sign in</a>
+</div>
+{% endblock %}

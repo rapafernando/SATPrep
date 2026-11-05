@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load core_tags %}
+{% block title %}Progress · {{ APP_NAME }}{% endblock %}
+{% block content %}
+<h1>Progress</h1>
+
+<section class="card" aria-labelledby="score-h">
+  <div class="scorehead">
+    <div>
+      <p class="eyebrow" id="score-h">Predicted score</p>
+      <p class="bignum">{{ estimate }}</p>
+    </div>
+    {% if gain > 0 %}<p class="gain">+{{ gain }} since you started</p>{% endif %}
+  </div>
+  {% if points|length > 1 %}
+  <svg viewBox="0 0 600 200" class="chart" role="img" aria-label="Line chart of your predicted score by day. Now {{ estimate }}, target {{ goal.target_score }}.">
+    {% if target_y %}<line x1="16" x2="584" y1="{{ target_y }}" y2="{{ target_y }}" class="target-line"/>
+    <text x="584" y="{{ target_y }}" class="target-label" text-anchor="end" dy="-4">Goal {{ goal.target_score }}</text>{% endif %}
+    <polyline points="{{ polyline }}" class="score-line" fill="none"/>
+    {% for x, y in points %}<circle cx="{{ x }}" cy="{{ y }}" r="4" class="score-dot"/>{% endfor %}
+  </svg>
+  {% else %}
+  <p class="muted">Finish a session and your trend line starts here.</p>
+  {% endif %}
+  <p class="muted small-print">A rough guide from your practice, not an official score.</p>
+</section>
+
+<section class="card" aria-labelledby="days-h">
+  <div class="scorehead">
+    <p class="eyebrow" id="days-h">Last 14 days</p>
+    <p class="muted">{{ last14_total }} question{{ last14_total|pluralize }}</p>
+  </div>
+  <svg viewBox="0 0 600 130" class="chart" role="img" aria-label="Bar chart of questions answered each day for the last 14 days. {{ last14_total }} in the last 14 days, {{ total_answered }} so far.">
+    {% for bar in bars %}
+    <rect x="{{ bar.x }}" y="{{ bar.y }}" width="30" height="{{ bar.height }}" rx="4" class="bar"><title>{{ bar.day|date:"M j" }}: {{ bar.answered }} answered, {{ bar.correct }} correct</title></rect>
+    {% endfor %}
+  </svg>
+  <p class="muted small-print">{{ streak }} day streak · {{ total_answered }} questions so far</p>
+</section>
+
+{% if skills %}
+<section class="card" aria-labelledby="skills-h">
+  <h2 class="eyebrow" id="skills-h">Skills</h2>
+  <ul class="rows">
+    {% for row in skills %}
+    <li><a href="{% url 'skill_detail' row.skill.slug %}">
+      <span class="grow"><strong>{{ row.skill.name }}</strong><small class="muted">{{ row.progress.correct }}/{{ row.progress.attempts }} correct</small></span>
+      <span class="bar-track wide" aria-hidden="true"><span style="width: {% widthratio row.progress.mastery 1 100 %}%"></span></span>
+      <span class="chip">{% if row.state == 'strong' %}Strong{% else %}Learning{% endif %}</span>
+    </a></li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+{% ad_slot %}
+{% endblock %}

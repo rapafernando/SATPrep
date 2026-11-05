@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Review · {{ APP_NAME }}{% endblock %}
+{% block head %}{% include "partials/_math.html" %}{% endblock %}
+{% block body_class %}focus{% endblock %}
+{% block content %}
+<div class="focusbar">
+  <a class="iconbtn" href="{% url 'home' %}" aria-label="Leave practice"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></a>
+  <div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax="{{ total }}" aria-valuenow="{{ number }}" aria-label="Question {{ number }} of {{ total }}"><span style="width: {% widthratio number total 100 %}%"></span></div>
+  <span class="count">{{ number }}/{{ total }}</span>
+</div>
+
+<div class="verdict {% if attempt.is_correct %}right{% else %}wrong{% endif %}" role="status">
+  <span class="badge" aria-hidden="true">
+    {% if attempt.is_correct %}<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>{% else %}<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>{% endif %}
+  </span>
+  <div>
+    <p class="verdict-title">{% if attempt.is_correct %}Correct!{% elif attempt.answer %}Not quite{% else %}Skipped{% endif %}</p>
+    <p class="verdict-text">
+      {% if attempt.is_correct %}
+        {% if question.answer_type == 'choice' %}{{ attempt.answer|upper }}{% if your_text %}, <span class="math">{{ your_text }}</span>{% endif %} is right.{% else %}<span class="math">{{ attempt.answer }}</span> is right.{% endif %}
+      {% else %}
+        {% if attempt.answer %}You chose {% if question.answer_type == 'choice' %}{{ attempt.answer|upper }}{% if your_text %}, <span class="math">{{ your_text }}</span>{% endif %}{% else %}<span class="math">{{ attempt.answer }}</span>{% endif %}. {% endif %}
+        The answer is {% if question.answer_type == 'choice' %}{{ question.correct_answer|upper }}{% if right_text %}, <span class="math">{{ right_text }}</span>{% endif %}{% else %}<span class="math">{{ question.correct_answer }}</span>{% endif %}.
+      {% endif %}
+    </p>
+  </div>
+</div>
+
+<section class="card">
+  <p class="eyebrow">{{ question.skill.name }}</p>
+  <div class="stem math">{{ question.stem|linebreaksbr }}</div>
+</section>
+
+<section class="card explain" aria-labelledby="how-h">
+  <h2 id="how-h" class="eyebrow">How to solve it</h2>
+  <div class="math">{{ question.explanation|linebreaks }}</div>
+</section>
+
+<form method="post" action="{% url 'practice_next' session.id %}">{% csrf_token %}
+  <div class="cta-bar"><button class="btn block" type="submit">{% if is_last %}Finish{% else %}Next question{% endif %}</button></div>
+</form>
+{% endblock %}

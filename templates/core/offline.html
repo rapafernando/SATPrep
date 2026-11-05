@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Offline · {{ APP_NAME }}{% endblock %}
+{% block content %}
+<section class="card narrow center">
+  <h1>You are offline</h1>
+  <p>{{ APP_NAME }} needs an internet connection to load your practice. Check your connection and try again.</p>
+  <button class="btn" type="button" onclick="location.reload()">Try again</button>
+</section>
+{% endblock %}

@@ -1,0 +1,32 @@
+# Secrets and local settings
+.env
+.env.*
+!.env.example
+
+# Python
+.venv
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Local data and build output
+db.sqlite3
+*.sqlite3
+staticfiles/
+*.zip
+e2e/results.json
+e2e/server.log
+.DS_Store
+
+# Research notes about the app this one was modelled on. Public reviews, quotes and the original's
+# screenshots: useful to you, not something to publish.
+replica/screens/
+replica/reviews.csv
+replica/recon.md
+replica/feedback.md
+replica/fixes.md
+
+# Dark and wide screenshots are regenerable; the phone-width light set is kept.
+replica/clone-screens/*-dark.png
+replica/clone-screens/*-wide.png

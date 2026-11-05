@@ -1,0 +1,46 @@
+feature,area,priority,original,clone,notes
+Goal intake: current score / target score / target school / test date / minutes per day,onboarding,must,yes,yes,S06 step 1 seen; later steps unseen (inputs inferred from landing 'Hit your target score' card) | clone: S06 goal screen: now / goal / test date / minutes chips / dream school; starter values prefilled
+Target curve chart from today to test date,onboarding,could,yes,partial,S06 | clone: Progress shows trend line with dashed goal line; no pre-signup projected curve
+Generated study plan with projected score and date and days left,plan,must,yes,yes,"S12; landing 'Hit your target score' | clone: S12 plan screen: days left, questions a day, points to gain, plain-language note"
+Study calendar view,plan,should,yes,no,S13 label only ('See study calendar'); contents unseen | clone: Not built; daily target only
+Plan adapts to weak spots and days left,plan,should,unclear,partial,Claimed on landing FAQ; mechanism unseen | clone: Questions/day from days left; 'Work on next' and mixed set lean to weakest skills
+Lesson path with locked and open nodes per skill,learn,must,yes,partial,S11 | clone: Practice tab lists skills as path rows with new/learning/strong state; nothing is locked by design
+Math and Reading & Writing tracks,learn,must,yes,yes,S11 tabs | clone: Practice tab sections Math and Reading & Writing
+Short lessons per skill (own content),learn,should,yes,partial,"S14 unseen; 1.7.1 'path with videos'; videos are theirs, author your own | clone: 6 skills have a short written lesson (S14); rest empty. Content work, not code"
+Daily session = Learn + Practice + Review blocks,learn,must,yes,partial,Landing 'Today's session' (about 25 min example) | clone: Daily mixed set of 20 with ring and minutes; no separate learn/review blocks
+Mixed retrieval review of earlier skills,learn,should,yes,partial,Landing 'Mixed retrieval check' | clone: Mixed set weights toward low mastery; no spaced-repetition schedule
+Adaptive question picking,practice,should,yes,yes,"Landing '8 adaptive questions'; algorithm unknown | clone: Picks by mastery, no repeats in a session"
+Guided course and free practice as separate areas,practice,should,yes,yes,S22 added 1.7.1 to 1.7.7; unseen | clone: Today (daily set) vs Practice tab (mixed or per skill)
+Multiple-choice question screen in digital-SAT style,practice,must,yes,yes,"S15 | clone: S15 focus-mode screen, lettered choices, Check disabled until chosen"
+Student-produced numeric answer entry,practice,must,yes,yes,"S16 shows an entered numeric answer | clone: S15 numeric field; fractions, decimals, negatives and commas graded"
+Segmented question progress bar,practice,must,yes,partial,"S15 | clone: One progress bar with 'n/20' count, not segments"
+Built-in calculator,practice,must,yes,yes,"Icon on S15; 1.8.0 fixes | clone: S23 safe calculator panel, no eval"
+Scratchpad with finger / mouse / stylus (reliable Pencil input),practice,should,yes,yes,S24 unseen; from /replica-entrepreneur: a review reports Pencil input dropping (1 review; thin). Size L | clone: S24 canvas with palm rejection once a pen is seen; untested on a real Apple Pencil
+Flag and bookmark a question,practice,could,yes,no,Icons on S15 | clone: Not built
+Step-by-step explanation after each answer,practice,must,yes,yes,S16 'Game plan' panel; write your own explanations | clone: S16 'How to solve it' card on every question
+Difficulty and domain tags on questions,practice,should,yes,partial,S16 | clone: Skill and domain shown; difficulty stored but not shown
+Review missed questions later,practice,should,unclear,no,Third-party listing mentions it; not confirmed on official pages | clone: Missed questions feed mastery only; no review list
+Predicted score with trend chart,progress,must,yes,yes,"S17; how it is computed is unknown | clone: S17 predicted score, gain since start, line chart with goal"
+Questions per day and accuracy against plan targets,progress,should,yes,yes,Landing 'Stay on track' | clone: Today ring and 14-day bar chart
+Daily streak counter,engagement,should,yes,yes,Flame on S11; rules unseen | clone: Streak chip on Today and Progress
+Share stats,progress,could,yes,no,Button on S17; destination unseen | clone: Not built
+School list with acceptance chances,progress,could,yes,no,S17; needs its own public data source | clone: Not built; needs public data
+Parent invites child and follows progress,parent,should,yes,partial,S26 unseen; support FAQ and landing table. Matters here: the user is the parent | clone: S26 Family page shows linked children; admin links them (no invite flow)
+Simple sign-in for learner and parent,accounts,must,yes,yes,"S08 unseen. Keep minimal for a family | clone: S08 sign in, sign up with admin approval, lockout after failures | backend: approval, lockout, change password, sign out everywhere, delete account, admin reset"
+AI coach that answers questions (own prompts and guardrails),extras,could,yes,no,S19 unseen; landing 'Derd will answer your questions' | clone: Not built
+Derdle: daily 5-question timed game,extras,could,yes,no,"S03 seen; S04, S05 unseen. Same puzzle for everyone; wrong answers add time | clone: Not built"
+Multiplayer matches between friends,extras,could,yes,no,S20 unseen; added 1.6.0 | clone: Not built
+Leaderboard among friends,extras,could,yes,no,S21 unseen; 1.5.4; leagues removed 1.7.7 | clone: Not built
+Gems / XP / leagues / avatar store,extras,skip,no,no,Removed by the original in 1.7.7 (Oct 11); do not copy
+No energy meter or lesson cap (daily goal instead),practice,should,unclear,yes,From /replica-entrepreneur: a review reports a 1-2 lesson per day cap (1 review; thin); may be fixed since 1.7.7. Size M | clone: No lesson cap anywhere
+No ads inside study sessions and sound off by default,practice,should,unclear,yes,"From /replica-entrepreneur: a review calls the ads embarrassing (1 review; thin). Trivial for a private app. Size S | clone: Ad slot only on Today, Progress, Done; admin can switch off per member"
+Original restrained visual style (own art),design,should,no,yes,"From /replica-entrepreneur: a review calls the look cheap (1 review; thin). Size M. Hand off to replica-brand | clone: Own tokens, own fonts (OFL), own icon; contrast gate in tests"
+Plain statement of what the product is and is not,marketing,could,no,partial,From /replica-entrepreneur: a review calls the all-in-one claim misleading (1 review; thin). Size S. Low need for a private app | clone: Sign-in line says what it is; no marketing page
+Own question bank with worked explanations,content,must,no,partial,"The original's 3,000+ questions are not copyable. Start with one section (Math). This is the dominant cost | clone: Only 24 original sample questions across 6 skills. Dominant remaining cost"
+"Original question bank, explanations and video lessons",content,skip,yes,no,Owned content; terms bar derivative works
+Mascot and artwork,design,skip,yes,no,Owned; design your own character or none
+Audience and distribution (YouTube channel and 1.5M users),business,skip,yes,no,"A network, not a feature"
+100-point score guarantee,business,skip,yes,no,Legal and business promise
+Stripe passes and App Store subscriptions,billing,skip,yes,no,Not needed for a private family app
+iOS widgets and native push notifications,platform,skip,yes,no,iOS-only; web uses email or browser notifications later
+Multiplayer anti-cheat,extras,skip,yes,no,Only matters at scale | clone: Not built

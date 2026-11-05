@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load core_tags %}
+{% block title %}Today · {{ APP_NAME }}{% endblock %}
+{% block content %}
+<header class="greeting">
+  <div>
+    <p class="muted">{% now "l" %}</p>
+    <h1>Hi {{ user.name }}</h1>
+  </div>
+  <p class="pill"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c1 3.5 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z"/></svg>{{ streak }} day streak</p>
+</header>
+
+<section class="card today" aria-labelledby="today-h">
+  <div class="today-row">
+    <div class="ring" role="progressbar" aria-valuemin="0" aria-valuemax="{{ goal_questions }}" aria-valuenow="{{ today_count }}" aria-label="Questions done today">
+      <svg viewBox="0 0 88 88" aria-hidden="true"><circle cx="44" cy="44" r="38" class="ring-track"/><circle cx="44" cy="44" r="38" class="ring-fill" stroke-dasharray="{{ ring_dash }} {{ ring_length }}" transform="rotate(-90 44 44)"/></svg>
+      <span class="ring-text"><b>{{ today_count }}</b><small>of {{ goal_questions }}</small></span>
+    </div>
+    <div>
+      <p class="eyebrow" id="today-h">Today's set</p>
+      {% if questions_left %}
+      <p class="lead">{{ questions_left }} question{{ questions_left|pluralize }} to go</p>
+      <p class="muted">About {{ minutes_left }} minutes</p>
+      {% else %}
+      <p class="lead">Today's goal is done</p>
+      <p class="muted">Keep going if you like.</p>
+      {% endif %}
+    </div>
+  </div>
+  {% if has_questions %}
+  <form method="post" action="{% url 'start_daily' %}">{% csrf_token %}
+    <button class="btn block" type="submit">{% if today_count %}Keep going{% else %}Start today's set{% endif %}</button>
+  </form>
+  {% else %}
+  <p class="msg error">There are no questions yet. The admin can add some in the admin area.</p>
+  {% endif %}
+</section>
+
+<section class="duo" aria-label="Your numbers">
+  <div class="stat left"><span class="lbl">Predicted</span><span class="num">{{ estimate }}</span><span class="lbl">Goal {{ goal.target_score }}{% if goal.target_school %} · {{ goal.target_school }}{% endif %}</span></div>
+  <div class="stat left"><span class="lbl">Test day</span><span class="num">{{ plan.days_left }}</span><span class="lbl">days left</span></div>
+</section>
+<p class="muted small-print">{{ plan.note }} <a href="{% url 'onboarding' %}">Change my goal</a></p>
+
+{% if weak_skills %}
+<section class="card" aria-labelledby="next-h">
+  <h2 class="eyebrow" id="next-h">Work on next</h2>
+  <ul class="rows">
+    {% for row in weak_skills %}
+    <li><a href="{% url 'skill_detail' row.skill.slug %}">
+      <span class="grow"><strong>{{ row.skill.name }}</strong>
+        <span class="bar-track" aria-hidden="true"><span style="width: {{ row.pct|default:0 }}%"></span></span></span>
+      <span class="muted pct">{% if row.pct is None %}New{% else %}{{ row.pct }}%{% endif %}</span>
+    </a></li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+{% ad_slot %}
+{% endblock %}

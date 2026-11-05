@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Sign-ups closed · {{ APP_NAME }}{% endblock %}
+{% block content %}
+<div class="welcome">
+  <div class="welcome-head">
+    <h1>Sign-ups are closed</h1>
+    <p class="muted">New accounts are not being accepted right now. Ask the admin if you think you should have access.</p>
+  </div>
+  <a class="btn block" href="{% url 'login' %}">Sign in</a>
+</div>
+{% endblock %}

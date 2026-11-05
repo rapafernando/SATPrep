@@ -1,0 +1,11 @@
+{% extends "console/base.html" %}
+{% block console %}
+<h1>Ads &amp; sign-ups</h1>
+<section class="card">
+  <form method="post" novalidate>{% csrf_token %}
+    {% include "partials/_form.html" %}
+    <p class="muted small-print">Ads appear only on the home, progress and session-summary pages (never during a question), and never for ad-free members. Paste ad code only from a network you trust: it runs on your members' phones. If your members are under 13 or you serve ads to minors, check your ad network's child-directed rules first.</p>
+    <button class="btn" type="submit">Save</button>
+  </form>
+</section>
+{% endblock %}

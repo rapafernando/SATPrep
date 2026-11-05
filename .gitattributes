@@ -1,0 +1,10 @@
+# Keep shell scripts and Docker files with Unix line endings, even if edited on Windows.
+* text=auto
+*.sh text eol=lf
+Dockerfile text eol=lf
+*.png binary
+*.woff2 binary
+*.zip binary
+# Vendored libraries: do not count them as this project's code on GitHub.
+static/vendor/** linguist-vendored
+e2e/vendor/** linguist-vendored

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Family · {{ APP_NAME }}{% endblock %}
+{% block content %}
+<h1>Family</h1>
+{% for card in cards %}
+<section class="card">
+  <h2>{{ card.member.name }}</h2>
+  {% if card.goal %}
+  <div class="stats">
+    <div class="stat"><span class="num">{{ card.estimate }}</span><span class="lbl">Predicted score</span></div>
+    <div class="stat"><span class="num">{{ card.goal.target_score }}</span><span class="lbl">Target</span></div>
+    <div class="stat"><span class="num">{{ card.plan.days_left }}</span><span class="lbl">Days to test</span></div>
+    <div class="stat"><span class="num">{{ card.streak }}</span><span class="lbl">Day streak</span></div>
+  </div>
+  <p class="muted">Today: {{ card.today_count }} of {{ card.plan.daily_questions }} questions. Last 7 days: {{ card.week_correct }} correct out of {{ card.week_answered }}.</p>
+  {% else %}
+  <p class="muted">{{ card.member.name }} has not set a goal yet.</p>
+  {% endif %}
+</section>
+{% empty %}
+<section class="card"><p>No children are linked to your account yet. Ask the admin to link them.</p></section>
+{% endfor %}
+{% endblock %}

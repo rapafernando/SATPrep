@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Privacy · {{ APP_NAME }}{% endblock %}
+{% block content %}
+<h1>Privacy</h1>
+<p class="muted">{{ APP_NAME }} is a small private study site run by one person for family and friends.</p>
+
+<section class="card" aria-labelledby="p1">
+  <h2 id="p1">What is stored</h2>
+  <ul class="plain">
+    <li>Username, the name you chose, your role (student or parent) and an optional email.</li>
+    <li>Your password, only as a one-way scrambled value. Nobody can read it.</li>
+    <li>Your goal, your answers, how long they took, your scores and your streak.</li>
+  </ul>
+</section>
+
+<section class="card" aria-labelledby="p2">
+  <h2 id="p2">Who can see it</h2>
+  <ul class="plain">
+    <li>The site owner (admin) can see members and their progress.</li>
+    <li>A parent sees the progress of children the admin linked to them.</li>
+    <li>Other members see nothing about you.</li>
+  </ul>
+</section>
+
+<section class="card" aria-labelledby="p3">
+  <h2 id="p3">Other companies</h2>
+  <ul class="plain">
+    <li>The site runs on the owner's own server. There are no analytics, trackers or advertising profiles.</li>
+    <li>A free name service and a free certificate authority make the https address work. They see that the address was visited, not what you do.</li>
+    {% if settings_obj.ads_enabled %}<li>Ads are switched on for some members. The ad network that supplies them can see that an ad was loaded on your device. The owner can turn ads off for any member.</li>{% else %}<li>Ads are currently off. If they are switched on later, the ad network will be named here.</li>{% endif %}
+    <li>The site does not send email.</li>
+  </ul>
+</section>
+
+<section class="card" aria-labelledby="p4">
+  <h2 id="p4">Your choices</h2>
+  <ul class="plain">
+    <li>Sign out of every phone: Me, then Sign out everywhere.</li>
+    <li>Delete your account and all your data: Me, then Delete my account. It happens at once.</li>
+    <li>Questions: ask the site owner.</li>
+  </ul>
+</section>
+{% endblock %}

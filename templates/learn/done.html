@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load core_tags %}
+{% block title %}Session done · {{ APP_NAME }}{% endblock %}
+{% block head %}{% include "partials/_math.html" %}{% endblock %}
+{% block content %}
+<section class="card center" aria-labelledby="done-h">
+  <h1 id="done-h">Session complete</h1>
+  <p class="bignum">{{ correct }} / {{ answered }}</p>
+  <p class="muted">correct{% if minutes %} · about {{ minutes }} min{% endif %}</p>
+  <div class="stats">
+    {% if estimate %}<div class="stat"><span class="num">{{ estimate }}</span><span class="lbl">Predicted score</span></div>{% endif %}
+    <div class="stat"><span class="num">{{ streak }}</span><span class="lbl">Day streak</span></div>
+  </div>
+  <a class="btn block" href="{% url 'home' %}">Back to Today</a>
+  <a class="btn ghost block" href="{% url 'progress' %}">See my progress</a>
+</section>
+
+<section class="card" aria-labelledby="recap-h">
+  <h2 class="eyebrow" id="recap-h">This session</h2>
+  <ul class="recap">
+    {% for a in attempts %}
+    <li class="{% if a.is_correct %}right{% else %}wrong{% endif %}">
+      <span class="mark" aria-hidden="true">{% if a.is_correct %}✓{% else %}✗{% endif %}</span>
+      <span class="sr-only">{% if a.is_correct %}Correct: {% else %}Missed: {% endif %}</span>
+      <span class="math">{{ a.question.stem|truncatechars:90 }}</span>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% ad_slot %}
+{% endblock %}

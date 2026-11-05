@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Me · {{ APP_NAME }}{% endblock %}
+{% block content %}
+<h1>{{ user.name }}</h1>
+<p class="muted">@{{ user.username }} · {{ user.get_role_display }}</p>
+
+<section class="card" aria-labelledby="me-goal">
+  <h2 id="me-goal">My goal</h2>
+  {% if goal %}
+  <p class="lead">{{ goal.current_score }} → {{ goal.target_score }}</p>
+  <p class="muted">Test date {{ goal.test_date|date:"M j, Y" }} · {{ goal.minutes_per_day }} minutes a day{% if goal.target_school %} · {{ goal.target_school }}{% endif %}</p>
+  <a class="btn ghost block" href="{% url 'onboarding' %}">Change my goal</a>
+  {% else %}
+  <p class="muted">You have not set a goal yet.</p>
+  <a class="btn block" href="{% url 'onboarding' %}">Set my goal</a>
+  {% endif %}
+</section>
+
+<section class="card">
+  <ul class="rows">
+    {% if has_family %}<li><a href="{% url 'family' %}"><span class="grow"><strong>Family</strong><small class="muted">See your children's progress</small></span><span aria-hidden="true">›</span></a></li>{% endif %}
+    <li><a href="{% url 'plan' %}"><span class="grow"><strong>My plan</strong><small class="muted">Questions a day and pace</small></span><span aria-hidden="true">›</span></a></li>
+    <li><a href="{% url 'install_help' %}"><span class="grow"><strong>Put it on my home screen</strong><small class="muted">Open it like an app</small></span><span aria-hidden="true">›</span></a></li>
+    {% if user.is_staff %}<li><a href="{% url 'console' %}"><span class="grow"><strong>Admin</strong><small class="muted">Approve members, ads</small></span><span aria-hidden="true">›</span></a></li>{% endif %}
+  </ul>
+</section>
+
+<section class="card" aria-labelledby="me-account">
+  <h2 id="me-account">Account</h2>
+  <ul class="rows">
+    <li><a href="{% url 'password_change' %}"><span class="grow"><strong>Change password</strong></span><span aria-hidden="true">›</span></a></li>
+    <li><a href="{% url 'privacy' %}"><span class="grow"><strong>Privacy</strong><small class="muted">What is stored and who sees it</small></span><span aria-hidden="true">›</span></a></li>
+    <li><a href="{% url 'delete_account' %}"><span class="grow"><strong>Delete my account</strong><small class="muted">Removes everything, at once</small></span><span aria-hidden="true">›</span></a></li>
+  </ul>
+  <form method="post" action="{% url 'sign_out_everywhere' %}">{% csrf_token %}<button class="btn ghost block" type="submit">Sign out everywhere</button></form>
+</section>
+
+<form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="btn ghost block" type="submit">Sign out</button></form>
+{% endblock %}

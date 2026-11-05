@@ -1,0 +1,22 @@
+{% extends "console/base.html" %}
+{% block console %}
+<h1>New sign-ups</h1>
+<p class="muted">They cannot sign in until you approve them.</p>
+<section class="card" aria-label="Waiting for approval">
+{% for person in pending %}
+  <div class="person row-line">
+    <div class="grow">
+      <strong>{{ person.name }}</strong> <span class="chip">{{ person.get_role_display }}</span><br>
+      <small class="muted">@{{ person.username }}{% if person.email %} · {{ person.email }}{% endif %} · asked {{ person.date_joined|timesince }} ago</small>
+    </div>
+    <form method="post" action="{% url 'console_user_action' person.id %}" class="row">{% csrf_token %}
+      <input type="hidden" name="next" value="{% url 'console_approvals' %}">
+      <button class="btn small" name="action" value="approve" type="submit" aria-label="Approve {{ person.name }}">Approve</button>
+      <button class="btn small ghost" name="action" value="reject" type="submit" aria-label="Decline {{ person.name }}">Decline</button>
+    </form>
+  </div>
+{% empty %}
+  <p class="muted">Nobody is waiting. New requests show up here.</p>
+{% endfor %}
+</section>
+{% endblock %}

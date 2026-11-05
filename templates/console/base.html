@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load core_tags %}
+{% block title %}Admin console · {{ APP_NAME }}{% endblock %}
+{% block content %}
+{% pending_count as waiting %}
+{% with current=request.resolver_match.url_name %}
+<nav class="subnav" aria-label="Admin">
+  <a href="{% url 'console' %}"{% if current == 'console' %} aria-current="page"{% endif %}>Overview</a>
+  <a href="{% url 'console_approvals' %}"{% if current == 'console_approvals' %} aria-current="page"{% endif %}>Approvals{% if waiting %} <span class="badge" aria-label="{{ waiting }} waiting">{{ waiting }}</span>{% endif %}</a>
+  <a href="{% url 'console_members' %}"{% if current == 'console_members' %} aria-current="page"{% endif %}>Members</a>
+  <a href="{% url 'console_settings' %}"{% if current == 'console_settings' %} aria-current="page"{% endif %}>Ads &amp; sign-ups</a>
+  <a href="/{{ admin_path }}">Content</a>
+  <a href="{% url 'home' %}">Back to app</a>
+</nav>
+{% endwith %}
+{% block console %}{% endblock %}
+{% endblock %}

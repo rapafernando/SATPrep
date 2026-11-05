@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Sign in · {{ APP_NAME }}{% endblock %}
+{% block content %}
+<div class="welcome">
+  <div class="welcome-head">
+    <img src="{% static 'icons/icon-192.png' %}" alt="" width="64" height="64">
+    <h1>{{ APP_NAME }}</h1>
+    <p class="muted">A few questions a day, a plan that fits your test date.</p>
+  </div>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% include "partials/_form.html" %}
+    <input type="hidden" name="next" value="{{ next }}">
+    <button class="btn block" type="submit">Sign in</button>
+  </form>
+  <div class="welcome-foot">
+    <p class="muted">New here?</p>
+    <a class="btn ghost block" href="{% url 'signup' %}">Create an account</a>
+    <p class="muted small-print">The admin approves each new member before they can sign in.</p>
+    <p class="small-print"><a href="{% url 'privacy' %}">Privacy</a></p>
+  </div>
+</div>
+{% endblock %}

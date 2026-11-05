@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Install the app · {{ APP_NAME }}{% endblock %}
+{% block content %}
+<div class="install-head">
+  <img src="{% static 'icons/icon-192.png' %}" alt="" width="72" height="72">
+  <h1>Put it on your home screen</h1>
+</div>
+<p class="muted lead-text">It opens full screen with its own icon, like any app. It is still the website, so updates arrive by themselves. Nothing to download from an app store.</p>
+
+<section class="card" aria-labelledby="ios-h">
+  <h2 id="ios-h">iPhone or iPad (use Safari)</h2>
+  <ol class="stepper">
+    <li><span class="n" aria-hidden="true">1</span><span>Open this site in <strong>Safari</strong>.</span></li>
+    <li><span class="n" aria-hidden="true">2</span><span>Tap the <strong>Share</strong> button (the square with an arrow pointing up).</span></li>
+    <li><span class="n" aria-hidden="true">3</span><span>Scroll and tap <strong>Add to Home Screen</strong>, then <strong>Add</strong>.</span></li>
+  </ol>
+</section>
+
+<section class="card" aria-labelledby="and-h">
+  <h2 id="and-h">Android (use Chrome)</h2>
+  <ol class="stepper">
+    <li><span class="n" aria-hidden="true">1</span><span>Tap <strong>Install</strong> in the banner, or open the <strong>⋮</strong> menu.</span></li>
+    <li><span class="n" aria-hidden="true">2</span><span>Choose <strong>Install app</strong> (or <strong>Add to Home screen</strong>) and confirm.</span></li>
+  </ol>
+  <button id="install-page-btn" class="btn block" type="button" hidden>Install now</button>
+  <p class="muted small-print">The Install now button shows only on browsers that allow it.</p>
+</section>
+
+<section class="card" aria-labelledby="pc-h">
+  <h2 id="pc-h">Computer (Chrome or Edge)</h2>
+  <p>Click the install icon at the right end of the address bar, then <strong>Install</strong>.</p>
+</section>
+<p class="muted">After installing, open it from the icon. You stay signed in on that phone.</p>
+{% endblock %}

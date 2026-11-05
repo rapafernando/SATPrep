@@ -1,0 +1,20 @@
+# Add this block to your existing Caddyfile (keep your other sites as they are).
+# Replace the name with the DuckDNS subdomain you created for this app.
+# Port 8010 must match WEB_PORT in .env.
+
+scorepath.YOURNAME.duckdns.org {
+	encode zstd gzip
+
+	# Caddy sets X-Forwarded-For to the real visitor address (the app's login lockout
+	# and sign-up limit depend on it) and replaces anything the visitor sent themselves.
+	reverse_proxy 127.0.0.1:8010 {
+		header_up X-Forwarded-For {remote_host}
+	}
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "same-origin"
+		-Server
+	}
+}

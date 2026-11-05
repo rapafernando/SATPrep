@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}{{ skill.name }} · {{ APP_NAME }}{% endblock %}
+{% block head %}{% include "partials/_math.html" %}{% endblock %}
+{% block content %}
+<p><a class="backlink" href="{% url 'practice_home' %}">← Back to Practice</a></p>
+<section class="card">
+  <p class="eyebrow">{{ skill.get_track_display }} · {{ skill.domain }}</p>
+  <h1>{{ skill.name }}</h1>
+  {% if skill.summary %}<p class="muted">{{ skill.summary }}</p>{% endif %}
+  {% if skill.lesson %}<div class="lesson math">{{ skill.lesson|linebreaks }}</div>{% endif %}
+  {% if progress %}<p class="muted">So far: {{ progress.correct }} of {{ progress.attempts }} correct.</p>{% endif %}
+  {% if question_count %}
+  <form method="post" action="{% url 'start_skill' skill.slug %}">{% csrf_token %}
+    <button class="btn block" type="submit">Practice this skill</button>
+  </form>
+  {% else %}
+  <p class="msg error">No questions for this skill yet.</p>
+  {% endif %}
+</section>
+{% endblock %}

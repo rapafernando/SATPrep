@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Design system · {{ APP_NAME }}{% endblock %}
+{% block content %}
+<h1>Design system</h1>
+<p class="muted">Staff only. Every component in every state, read from <code>static/css/tokens.css</code>. Change values in <code>replica/design/tokens.json</code>, then run <code>python3 tools/build_tokens.py</code>.</p>
+
+<section class="card" aria-labelledby="d-colors">
+  <h2 id="d-colors">Colour roles</h2>
+  <div class="swatches">
+    {% for name, value in colors %}
+    <div class="swatch"><span class="chipbox" style="background: var(--color-{{ name }})"></span><b>{{ name }}</b><small class="muted">{{ value }} (light)</small></div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="card" aria-labelledby="d-type">
+  <h2 id="d-type">Type</h2>
+  {% for name, t in types %}
+  <p style="font-size: var(--text-{{ name }}); line-height: var(--leading-{{ name }}); font-weight: {{ t.weight }}; margin: 0 0 8px; {% if name == 'display' or name == 'xl' or name == 'lg' %}font-family: var(--font-display);{% endif %}">{{ name }} · {{ t.size }}/{{ t.line }} · Quick brown fox 1130</p>
+  {% endfor %}
+  <p class="math-sample">3x + 7 = 25</p>
+</section>
+
+<section class="card" aria-labelledby="d-buttons">
+  <h2 id="d-buttons">Buttons</h2>
+  <div class="row">
+    <button class="btn" type="button">Primary</button>
+    <button class="btn ghost" type="button">Secondary</button>
+    <button class="btn danger" type="button">Remove</button>
+    <button class="btn small" type="button">Small</button>
+    <button class="btn" type="button" disabled>Disabled</button>
+  </div>
+  <button class="btn block" type="button">Full width</button>
+</section>
+
+<section class="card" aria-labelledby="d-fields">
+  <h2 id="d-fields">Fields</h2>
+  <div class="field"><label for="f1">Username</label><input id="f1" type="text" value="sam"><span class="help">Letters and numbers only.</span></div>
+  <div class="field has-error"><label for="f2">Target score</label><input id="f2" type="number" value="1700" aria-invalid="true" aria-describedby="f2e"><span class="error" id="f2e">Scores run from 400 to 1600.</span></div>
+  <div class="field"><label for="f3">Disabled</label><input id="f3" type="text" value="Not editable" disabled></div>
+</section>
+
+<section class="card" aria-labelledby="d-choices">
+  <h2 id="d-choices">Answer choices</h2>
+  <fieldset class="choices">
+    <legend class="sr-only">Sample choices</legend>
+    <label class="choice"><input type="radio" name="s" value="A"><span class="letter">A</span><span>Unselected</span></label>
+    <label class="choice"><input type="radio" name="s" value="B" checked><span class="letter">B</span><span>Selected</span></label>
+  </fieldset>
+</section>
+
+<section class="card" aria-labelledby="d-feedback">
+  <h2 id="d-feedback">Feedback</h2>
+  <ul class="messages">
+    <li class="msg">Your account is waiting for approval.</li>
+    <li class="msg success">Settings saved.</li>
+    <li class="msg error">Choose or type an answer first.</li>
+  </ul>
+  <div class="row">
+    <span class="chip">Not started</span><span class="chip good">Strong</span><span class="chip off">Needs work</span>
+  </div>
+</section>
+
+<section aria-labelledby="d-stats">
+  <h2 id="d-stats" class="sr-only">Stats and progress</h2>
+  <div class="stats">
+    <div class="stat"><span class="num">1130</span><span class="lbl">Predicted score</span></div>
+    <div class="stat"><span class="num">1300</span><span class="lbl">Target</span></div>
+    <div class="stat"><span class="num">37</span><span class="lbl">Days to test</span></div>
+    <div class="stat"><span class="num">4</span><span class="lbl">Day streak</span></div>
+  </div>
+  <div class="card">
+    <div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax="20" aria-valuenow="12" aria-label="Today's set"><span style="width: 60%"></span></div>
+    <p class="muted">12 of 20 questions today</p>
+    <div class="segments" aria-hidden="true"><span class="done"></span><span class="done"></span><span class="now"></span><span></span><span></span></div>
+  </div>
+</section>
+
+<aside class="ad-slot" aria-label="Advertisement"><small class="ad-label">Sponsored</small>Ad code appears here when ads are on.</aside>
+{% endblock %}
